@@ -1753,6 +1753,18 @@ static const struct SpriteFrameImage sPicTable_Mom[] = {
     overworld_frame(gObjectEventPic_Mom, 2, 4, 8),
 };
 
+static const struct SpriteFrameImage sPicTable_Gastly[] = {
+    overworld_frame(gObjectEventPic_Gastly, 2, 2, 0),
+    overworld_frame(gObjectEventPic_Gastly, 2, 2, 1),
+    overworld_frame(gObjectEventPic_Gastly, 2, 2, 2),
+    overworld_frame(gObjectEventPic_Gastly, 2, 2, 3),
+    overworld_frame(gObjectEventPic_Gastly, 2, 2, 4),
+    overworld_frame(gObjectEventPic_Gastly, 2, 2, 5),
+    overworld_frame(gObjectEventPic_Gastly, 2, 2, 6),
+    overworld_frame(gObjectEventPic_Gastly, 2, 2, 7),
+    overworld_frame(gObjectEventPic_Gastly, 2, 2, 8),
+};
+
 static const struct SpriteFrameImage sPicTable_Silvio[] = {
     overworld_frame(gObjectEventPic_Silvio, 2, 4, 0),
     overworld_frame(gObjectEventPic_Silvio, 2, 4, 1),
