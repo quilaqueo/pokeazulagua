@@ -188,7 +188,6 @@ PalletTown_EventScript_OakTrigger::
 	waitmessage
 	delay 85
 	closemessage
-	hidenamebox
 	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterDown
 	waitmovement 0
 	playse SE_PIN
@@ -199,10 +198,8 @@ PalletTown_EventScript_OakTrigger::
 	call_if_eq VAR_TEMP_1, 0, PalletTown_EventScript_OakEnterLeft
 	call_if_eq VAR_TEMP_1, 1, PalletTown_EventScript_OakEnterRight
 	delay 30
-	namebox Name_Oak
-	msgbox PalletTown_Text_CuidadoEnLaHierba
+	msgbox PalletTown_Text_CuidadoEnLaHierba, name = Name_Oak
 	closemessage
-	hidenamebox
 	delay 30
 	playmoncry SPECIES_PIKACHU, 0
 	call_if_eq VAR_TEMP_1, 0, PalletTown_EventScript_AparicionPikachuIzq
@@ -213,10 +210,8 @@ PalletTown_EventScript_OakTrigger::
 	waitstate
 	lock
 	playbgm MUS_OAK, 0
-	namebox Name_Oak
-	msgbox PalletTown_Text_EsoEstuvoCerca
+	msgbox PalletTown_Text_EsoEstuvoCerca, name = Name_Oak
 	closemessage
-	hidenamebox
 	applymovement LOCALID_PALLET_PROF_OAK, Common_Movement_FaceUp
 	applymovement LOCALID_PLAYER, Common_Movement_FaceDown
 	waitmovement 0

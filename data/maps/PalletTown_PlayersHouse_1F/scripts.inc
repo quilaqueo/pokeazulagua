@@ -5,10 +5,7 @@ PalletTown_PlayersHouse_1F_EventScript_Mom::
 	lock
 	faceplayer
 	goto_if_set FLAG_BEAT_RIVAL_IN_OAKS_LAB, PalletTown_PlayersHouse_1F_EventScript_MomHeal
-	namebox Name_Mama
-	msgbox PalletTown_PlayersHouse_1F_Text_AllKidsLeaveOakLookingForYou
-	hidenamebox
-	closemessage
+	msgbox PalletTown_PlayersHouse_1F_Text_AllKidsLeaveOakLookingForYou, type = MSGBOX_AUTOCLOSE, name = Name_Mama
 	applymovement LOCALID_MOM, Common_Movement_FaceOriginalDirection
 	waitmovement 0
 	release
