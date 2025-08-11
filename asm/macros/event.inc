@@ -1789,9 +1789,27 @@
 	NO  = 0
 
 	@ Buffers the given text and calls the relevant standard message script (see gStdScripts).
-	.macro msgbox text:req, type=MSGBOX_DEFAULT
+	.macro msgbox text:req, type=MSGBOX_DEFAULT, name
+	.ifnb \name
+		namebox \name
+	.endif
 	loadword 0, \text
 	callstd \type
+	.if \type == MSGBOX_NPC
+		.ifnb \name
+			hidenamebox
+		.endif
+	.endif
+	.if \type == MSGBOX_SIGN
+		.ifnb \name
+			hidenamebox
+		.endif
+	.endif
+	.if \type == MSGBOX_AUTOCLOSE
+		.ifnb \name
+			hidenamebox
+		.endif
+	.endif
 	.endm
 
 	@ Gives 'amount' of the specified 'item' to the player and prints a message with fanfare.
