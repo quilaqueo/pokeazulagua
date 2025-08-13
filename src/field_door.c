@@ -258,6 +258,7 @@ static const struct DoorGraphics sDoorGraphics[] = {
     {METATILE_SaffronCity_Door,                            DOOR_SOUND_NORMAL,  DOOR_SIZE_1x1, sDoorAnimTiles_Saffron, sDoorAnimPalettes_Saffron},
     {METATILE_SaffronCity_SilphCoDoor,                     DOOR_SOUND_SLIDING, DOOR_SIZE_1x1, sDoorAnimTiles_SilphCo, sDoorAnimPalettes_SilphCo},
     {METATILE_CeruleanCity_Door,                           DOOR_SOUND_NORMAL,  DOOR_SIZE_1x1, sDoorAnimTiles_Cerulean, sDoorAnimPalettes_Cerulean},
+    {METATILE_CeruleanCity_SlidingSingle,                 DOOR_SOUND_SLIDING, DOOR_SIZE_1x1, sDoorAnimTiles_SlidingSingle, sDoorAnimPalettes_SlidingSingle},
     {METATILE_LavenderTown_Door,                           DOOR_SOUND_NORMAL,  DOOR_SIZE_1x1, sDoorAnimTiles_Lavender, sDoorAnimPalettes_Lavender},
     {METATILE_VermilionCity_Door,                          DOOR_SOUND_NORMAL,  DOOR_SIZE_1x1, sDoorAnimTiles_Vermilion, sDoorAnimPalettes_Vermilion},
 /*  Below was presumably intended for the door to the Pokemon Fan Club. The metatile is surrounded by metatiles for the fan club building.
