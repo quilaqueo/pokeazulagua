@@ -17,7 +17,8 @@
 #define METATILE_CeladonCity_DeptStoreDoor      0x294
 
 // gTileset_CeruleanCity
-#define METATILE_CeruleanCity_Door  0x298
+#define METATILE_CeruleanCity_Door         0x298
+#define METATILE_CeruleanCity_SlidingSingle  0x299
 
 // gTileset_CinnabarGym
 #define METATILE_CinnabarGym_Floor                  0x281
