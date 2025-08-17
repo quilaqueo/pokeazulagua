@@ -96,11 +96,11 @@ MtMoon_1F_EventScript_SilvioIzq::
 	waitmovement 0
 	setobjectxy 17,30,21
 	setobjectxy 18,30,22
-	setflag FLAG_SILVIO_MONTE_LUNA
-	setflag FLAG_SILVIO_TIENDA
-	setvar VAR_0x4090, 1
-	release
-	end
+        setflag FLAG_SILVIO_MONTE_LUNA
+        setflag FLAG_SILVIO_TIENDA
+        setvar VAR_0x4090, 1
+        release
+        end
 
 MtMoon_1F_EventScript_SilvioRight::
 	setflag FLAG_HIDE_SILVIO
@@ -148,11 +148,11 @@ MtMoon_1F_EventScript_SilvioRight::
 	waitmovement 0
 	setobjectxy 17,30,21
 	setobjectxy 18,30,22
-	setflag FLAG_SILVIO_MONTE_LUNA
-	setflag FLAG_SILVIO_TIENDA
-	setvar VAR_0x4090, 1
-	release
-	end
+        setflag FLAG_SILVIO_MONTE_LUNA
+        setflag FLAG_SILVIO_TIENDA
+        setvar VAR_0x4090, 1
+        release
+        end
 
 MtMoon_1F_EventScript_Silvio_EresEntrenadora::
 	namebox Name_Desconociodo
@@ -161,14 +161,14 @@ MtMoon_1F_EventScript_Silvio_EresEntrenadora::
 	return
 
 MtMoon_1F_EventScript_Silvio_EresEntrenador::
-	namebox Name_Desconociodo
-	msgbox MtMoon_1F_Text_Silvio_EresEntrenador
-	hidenamebox
-	closemessage
-	return
+        namebox Name_Desconociodo
+        msgbox MtMoon_1F_Text_Silvio_EresEntrenador
+        hidenamebox
+        closemessage
+        return
 
 MtMoon_1F_Movement_PlayerCamina::
-	walk_up
+        walk_up
 	walk_up
 	walk_up
 	jump_in_place_right

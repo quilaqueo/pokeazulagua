@@ -3,9 +3,16 @@ PewterCity_MapScripts::
 	.byte 0
 
 PewterCity_OnTransition::
-	setworldmapflag FLAG_WORLD_MAP_PEWTER_CITY
-	setvar VAR_MAP_SCENE_PEWTER_CITY_MUSEUM_1F, 0
-	end
+        setworldmapflag FLAG_WORLD_MAP_PEWTER_CITY
+        setvar VAR_MAP_SCENE_PEWTER_CITY_MUSEUM_1F, 0
+        call_if_set FLAG_SILVIO_TIENDA, PewterCity_EventScript_SilvioSetPath
+        end
+
+PewterCity_EventScript_SilvioSetPath::
+        setmetatile 30,15, METATILE_Cave_Floor_Ledge_Top, 0
+        setmetatile 30,16, METATILE_Cave_Floor_Ledge_Bottom, 0
+        special DrawWholeMapView
+        return
 
 @ Impossible to speak to this NPC from a facing dir != DIR_EAST normally, so they arent checked
 @ Additionally, no movement script exists for facing DIR_SOUTH, which would necessitate walking out of bounds
