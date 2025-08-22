@@ -92,6 +92,8 @@
 // gTileset_PewterCity
 #define METATILE_PewterCity_Door        0x2A3
 #define METATILE_PewterCity_SilvioMart  0x3AD
+#define METATILE_PewterCity_ViridianSlidingSingleBlue   0x3AE
+#define METATILE_PewterCity_ViridianSlidingSinglePurple 0x3AF
 
 // gTileset_PokemonCenter
 #define METATILE_PokemonCenter_CableClubDoor                         0x2DE
