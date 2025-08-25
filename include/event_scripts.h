@@ -1230,6 +1230,7 @@ extern const u8 EventScript_Indigo_UltimateGoal[];
 extern const u8 EventScript_Indigo_HighestAuthority[];
 extern const u8 EventScript_PokemartSign[];
 extern const u8 EventScript_PokecenterSign[];
+extern const u8 EventScript_KabutoSign[];
 extern const u8 EventScript_CurrentTooFast[];
 extern const u8 EventScript_UseSurf[];
 extern const u8 EventScript_Waterfall[];

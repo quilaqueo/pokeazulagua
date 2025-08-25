@@ -895,6 +895,14 @@ bool8 MetatileBehavior_IsIndigoPlateauSign2(u8 metatileBehavior)
         return FALSE;
 }
 
+bool8 MetatileBehavior_IsKabutoSign(u8 metatileBehavior)
+{
+    if (metatileBehavior == MB_KABUTO_SIGN)
+        return TRUE;
+    else
+        return FALSE;
+}
+
 bool8 MetatileBehavior_IsFood(u8 metatileBehavior)
 {
     if (metatileBehavior == MB_FOOD)
