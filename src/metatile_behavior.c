@@ -738,6 +738,16 @@ bool8 MetatileBehavior_IsPlayerFacingPokeMartSign(u8 metatileBehavior, u8 player
         return FALSE;
 }
 
+bool8 MetatileBehavior_IsPlayerFacingKabutoSign(u8 metatileBehavior, u8 playerDirection)
+{
+    if (playerDirection != DIR_NORTH)
+        return FALSE;
+    else if (metatileBehavior == MB_KABUTO_SIGN)
+        return TRUE;
+    else
+        return FALSE;
+}
+
 bool8 MetatileBehavior_UnknownDummy1(u8 metatileBehavior) { return FALSE; }
 bool8 MetatileBehavior_UnknownDummy2(u8 metatileBehavior) { return FALSE; }
 bool8 MetatileBehavior_UnknownDummy3(u8 metatileBehavior) { return FALSE; }

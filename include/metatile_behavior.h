@@ -96,6 +96,7 @@ bool8 MetatileBehavior_IsBookshelf(u8 metatileBehavior);
 bool8 MetatileBehavior_IsPokeMartShelf(u8 metatileBehavior);
 bool8 MetatileBehavior_IsPlayerFacingPokemonCenterSign(u8 metatileBehavior, u8 playerDirection);
 bool8 MetatileBehavior_IsPlayerFacingPokeMartSign(u8 metatileBehavior, u8 playerDirection);
+bool8 MetatileBehavior_IsPlayerFacingKabutoSign(u8 metatileBehavior, u8 playerDirection);
 bool8 TestMetatileAttributeBit(u8 attr, u8 bitmask);
 bool8 MetatileBehavior_IsSpinRight(u8 metatileBehavior);
 bool8 MetatileBehavior_IsSpinLeft(u8 metatileBehavior);
