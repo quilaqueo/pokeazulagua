@@ -103,16 +103,20 @@ EventScript_NeatlyLinedUpTools::
 	end
 
 EventScript_PokemartSign::
-	msgbox Text_PokemartSign, MSGBOX_SIGN
-	end
+        msgbox Text_PokemartSign, MSGBOX_SIGN
+        end
 
 EventScript_PokecenterSign::
-	msgbox Text_PokecenterSign, MSGBOX_SIGN
-	end
+        msgbox Text_PokecenterSign, MSGBOX_SIGN
+        end
+
+EventScript_KabutoSign::
+        msgbox Text_KabutoSign, MSGBOX_SIGN
+        end
 
 EventScript_Indigo_UltimateGoal::
-	msgbox Text_Indigo_UltimateGoal, MSGBOX_SIGN
-	end
+        msgbox Text_Indigo_UltimateGoal, MSGBOX_SIGN
+        end
 
 EventScript_Indigo_HighestAuthority::
 	msgbox Text_Indigo_HighestAuthority, MSGBOX_SIGN

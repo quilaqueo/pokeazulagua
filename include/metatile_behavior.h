@@ -114,6 +114,7 @@ bool8 MetatileBehavior_IsPlayerFacingBattleRecords(u8 metatileBehavior, u8 playe
 bool8 MetatileBehavior_IsQuestionnaire(u8 metatileBehavior);
 bool8 MetatileBehavior_IsIndigoPlateauSign1(u8 metatileBehavior);
 bool8 MetatileBehavior_IsIndigoPlateauSign2(u8 metatileBehavior);
+bool8 MetatileBehavior_IsKabutoSign(u8 metatileBehavior);
 bool8 MetatileBehavior_IsFood(u8 metatileBehavior);
 bool8 MetatileBehavior_IsRockStairs(u8 metatileBehavior);
 bool8 MetatileBehavior_IsBlueprints(u8 metatileBehavior);

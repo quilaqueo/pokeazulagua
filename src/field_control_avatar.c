@@ -38,6 +38,7 @@
 #define SIGNPOST_POKEMART 1
 #define SIGNPOST_INDIGO_1 2
 #define SIGNPOST_INDIGO_2 3
+#define SIGNPOST_KABUTO 4
 #define SIGNPOST_SCRIPTED 240
 #define SIGNPOST_NA 255
 
@@ -628,6 +629,11 @@ static const u8 *GetInteractedMetatileScript(struct MapPosition *position, u8 me
         return EventScript_Questionnaire;
     if (MetatileBehavior_IsPlayerFacingBattleRecords(metatileBehavior, direction) == TRUE)
         return CableClub_EventScript_ShowBattleRecords;
+    if (MetatileBehavior_IsKabutoSign(metatileBehavior) == TRUE)
+    {
+        MsgSetSignpost();
+        return EventScript_KabutoSign;
+    }
     if (MetatileBehavior_IsIndigoPlateauSign1(metatileBehavior) == TRUE)
     {
         MsgSetSignpost();
@@ -830,6 +836,11 @@ static bool8 TrySetUpWalkIntoSignpostScript(struct MapPosition * position, u16 m
         SetUpWalkIntoSignScript(EventScript_Indigo_HighestAuthority, playerDirection);
         return TRUE;
     }
+    else if (signpostType == SIGNPOST_KABUTO)
+    {
+        SetUpWalkIntoSignScript(EventScript_KabutoSign, playerDirection);
+        return TRUE;
+    }
     else
     {
         script = GetSignpostScriptAtMapPosition(position);
@@ -855,6 +866,9 @@ static u8 GetFacingSignpostType(u16 metatileBehavior, u8 playerDirection)
 
     if (MetatileBehavior_IsIndigoPlateauSign2(metatileBehavior) == TRUE)
         return SIGNPOST_INDIGO_2;
+
+    if (MetatileBehavior_IsKabutoSign(metatileBehavior) == TRUE)
+        return SIGNPOST_KABUTO;
 
     if (MetatileBehavior_IsSignpost(metatileBehavior) == TRUE)
         return SIGNPOST_SCRIPTED;
