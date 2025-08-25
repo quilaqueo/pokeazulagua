@@ -35,11 +35,16 @@ Text_PokemartSign::
 	.string "POKéMON MART$"
 
 Text_PokecenterSign::
-	.string "Heal Your POKéMON!\n"
-	.string "POKéMON CENTER$"
+        .string "Heal Your POKéMON!\n"
+        .string "POKéMON CENTER$"
+
+Text_KabutoSign::
+        .string "Name: KABUTO\n"
+        .string "An extremely rare POKéMON that was\l"
+        .string "regenerated from a fossil.$"
 
 Text_Indigo_UltimateGoal::
-	.string "INDIGO PLATEAU\p"
+        .string "INDIGO PLATEAU\p"
 	.string "The ultimate goal of TRAINERS!\n"
 	.string "POKéMON LEAGUE HQ$"
 

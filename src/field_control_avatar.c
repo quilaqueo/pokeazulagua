@@ -38,6 +38,7 @@
 #define SIGNPOST_POKEMART 1
 #define SIGNPOST_INDIGO_1 2
 #define SIGNPOST_INDIGO_2 3
+#define SIGNPOST_KABUTO 4
 #define SIGNPOST_SCRIPTED 240
 #define SIGNPOST_NA 255
 
@@ -648,6 +649,11 @@ static const u8 *GetInteractedMetatileScript(struct MapPosition *position, u8 me
         MsgSetSignpost();
         return EventScript_PokecenterSign;
     }
+    if (MetatileBehavior_IsPlayerFacingKabutoSign(metatileBehavior, direction) == TRUE)
+    {
+        MsgSetSignpost();
+        return EventScript_KabutoSign;
+    }
     return NULL;
 }
 
@@ -820,6 +826,11 @@ static bool8 TrySetUpWalkIntoSignpostScript(struct MapPosition * position, u16 m
         SetUpWalkIntoSignScript(EventScript_PokemartSign, playerDirection);
         return TRUE;
     }
+    else if (signpostType == SIGNPOST_KABUTO)
+    {
+        SetUpWalkIntoSignScript(EventScript_KabutoSign, playerDirection);
+        return TRUE;
+    }
     else if (signpostType == SIGNPOST_INDIGO_1)
     {
         SetUpWalkIntoSignScript(EventScript_Indigo_UltimateGoal, playerDirection);
@@ -849,6 +860,9 @@ static u8 GetFacingSignpostType(u16 metatileBehavior, u8 playerDirection)
 
     if (MetatileBehavior_IsPlayerFacingPokeMartSign(metatileBehavior, playerDirection) == TRUE)
         return SIGNPOST_POKEMART;
+
+    if (MetatileBehavior_IsPlayerFacingKabutoSign(metatileBehavior, playerDirection) == TRUE)
+        return SIGNPOST_KABUTO;
 
     if (MetatileBehavior_IsIndigoPlateauSign1(metatileBehavior) == TRUE)
         return SIGNPOST_INDIGO_1;
