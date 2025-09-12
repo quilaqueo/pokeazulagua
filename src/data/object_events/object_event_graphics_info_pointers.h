@@ -322,4 +322,5 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_SANDSHREW]                = &gObjectEventGraphicsInfo_Sandshrew,
     [OBJ_EVENT_GFX_DOME_FOSSIL]              = &gObjectEventGraphicsInfo_DomeFossil,
     [OBJ_EVENT_GFX_GASTLY]                   = &gObjectEventGraphicsInfo_Gastly,
+    [OBJ_EVENT_GFX_MAGNEMITE]                = &gObjectEventGraphicsInfo_Magnemite,
 };
