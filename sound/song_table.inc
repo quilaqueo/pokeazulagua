@@ -359,6 +359,7 @@ gSongTable::
         song mus_hg_cerulean, 0, 0
         song mus_hg_encounter_rocket, 0, 0
         song mus_hg_vs_wild_kanto, 0, 0
+        song mus_hg_victory_vs_wild, 0, 0
 
 dummy_song_header:
 	.byte 0, 0, 0, 0
