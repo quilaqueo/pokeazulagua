@@ -118,7 +118,6 @@ extern const struct OamData gOamData_AffineOff_ObjBlend_32x32;
 extern const struct OamData gOamData_AffineOff_ObjNormal_32x32;
 extern const struct OamData gOamData_AffineOff_ObjNormal_32x16;
 extern const struct OamData gOamData_AffineOff_ObjNormal_16x8;
-extern const struct OamData gOamData_AffineOff_ObjNormal_64x64;
 
 static const u16 sOakSpeech_Background_Pals[] = INCBIN_U16("graphics/oak_speech/bg_tiles.gbapal"); // Shared by the Controls Guide, Pikachu Intro and Oak Speech scenes
 static const u32 sControlsGuide_PikachuIntro_Background_Tiles[] = INCBIN_U32("graphics/oak_speech/bg_tiles.4bpp.lz");
@@ -137,8 +136,6 @@ static const u16 sOakSpeech_Rival_Pal[] = INCBIN_U16("graphics/oak_speech/rival/
 static const u32 sOakSpeech_Rival_Tiles[] = INCBIN_U32("graphics/oak_speech/rival/pic.8bpp.lz");
 static const u16 sOakSpeech_Platform_Pal[] = INCBIN_U16("graphics/oak_speech/platform.gbapal");
 static const u16 sPikachuIntro_Pikachu_Pal[] = INCBIN_U16("graphics/oak_speech/pikachu_intro/pikachu.gbapal");
-static const u32 sOakSpeech_IntroPokemon_Gfx[] = INCBIN_U32("graphics/oak_speech/pokemon.4bpp.lz");
-static const u16 sOakSpeech_IntroPokemon_Pal[] = INCBIN_U16("graphics/oak_speech/pokemon.gbapal");
 static const u32 sOakSpeech_Platform_Gfx[] = INCBIN_U32("graphics/oak_speech/platform.4bpp.lz");
 static const u32 sPikachuIntro_PikachuBody_Gfx[] = INCBIN_U32("graphics/oak_speech/pikachu_intro/body.4bpp.lz");
 static const u32 sPikachuIntro_PikachuEars_Gfx[] = INCBIN_U32("graphics/oak_speech/pikachu_intro/ears.4bpp.lz");
@@ -356,11 +353,9 @@ static const u8 *const sPikachuIntro_Strings[NUM_PIKACHU_INTRO_PAGES] =
 #define GFX_TAG_PIKACHU      0x1001
 #define GFX_TAG_PIKACHU_EARS 0x1002
 #define GFX_TAG_PIKACHU_EYES 0x1003
-#define GFX_TAG_INTRO_POKEMON 0x1004
 
 #define PAL_TAG_PLATFORM     0x1000
 #define PAL_TAG_PIKACHU      0x1001
-#define PAL_TAG_INTRO_POKEMON 0x1004
 
 enum
 {
@@ -405,13 +400,6 @@ static const struct CompressedSpriteSheet sOakSpeech_Platform_SpriteSheet =
     .tag = GFX_TAG_PLATFORM
 };
 
-static const struct CompressedSpriteSheet sOakSpeech_IntroPokemon_SpriteSheet =
-{
-    .data = sOakSpeech_IntroPokemon_Gfx,
-    .size = 0x800,
-    .tag = GFX_TAG_INTRO_POKEMON
-};
-
 static const struct SpritePalette sPikachuIntro_Pikachu_SpritePalette =
 {
     .data = sPikachuIntro_Pikachu_Pal,
@@ -422,23 +410,6 @@ static const struct SpritePalette sOakSpeech_Platform_SpritePalette =
 {
     .data = sOakSpeech_Platform_Pal,
     .tag = PAL_TAG_PLATFORM
-};
-
-static const struct SpritePalette sOakSpeech_IntroPokemon_SpritePalette =
-{
-    .data = sOakSpeech_IntroPokemon_Pal,
-    .tag = PAL_TAG_INTRO_POKEMON
-};
-
-static const struct SpriteTemplate sOakSpeech_IntroPokemon_SpriteTemplate =
-{
-    .tileTag = GFX_TAG_INTRO_POKEMON,
-    .paletteTag = PAL_TAG_INTRO_POKEMON,
-    .oam = &gOamData_AffineOff_ObjNormal_64x64,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy
 };
 
 static const union AnimCmd sOakSpeech_PlatformLeft_Anim[] =
@@ -1161,8 +1132,7 @@ static void Task_OakSpeech_ReleaseNidoranFFromPokeBall(u8 taskId)
             tTimer--;
         spriteId = gTasks[taskId].tNidoranFSpriteId;
         gSprites[spriteId].invisible = FALSE;
-        gSprites[spriteId].tSpriteTimer = 0;
-        CreatePokeballSpriteToReleaseMon(spriteId, gSprites[spriteId].oam.paletteNum, 106, 54, 0, 0, 32, 0xFFFF1FFF);
+        gTasks[taskId].tPokeBallSpriteId = SPRITE_NONE;
         CreateIntroPokemonFadeInTask(taskId, 2);
         gTasks[taskId].func = Task_OakSpeech_IsInhabitedFarAndWide;
         gTasks[taskId].tTimer = 0;
@@ -1204,10 +1174,10 @@ static void Task_OakSpeech_ReturnNidoranFToPokeBall(u8 taskId)
     {
         ClearDialogWindowAndFrame(WIN_INTRO_TEXTBOX, TRUE);
         spriteId = gTasks[taskId].tNidoranFSpriteId;
-        gTasks[taskId].tPokeBallSpriteId = CreateTradePokeballSprite(spriteId, gSprites[spriteId].oam.paletteNum, 100, 66, 0, 0, 32, 0xFFFF1F3F);
+        gTasks[taskId].tPokeBallSpriteId = SPRITE_NONE;
         CreateIntroPokemonFadeOutTask(taskId, 2);
         gTasks[taskId].tTimer = 48;
-        gTasks[taskId].tSpriteTimer = 64;
+        gTasks[taskId].tSpriteTimer = 0;
         gTasks[taskId].func = Task_OakSpeech_TellMeALittleAboutYourself;
     }
 }
@@ -1216,32 +1186,32 @@ static void Task_OakSpeech_TellMeALittleAboutYourself(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (tSpriteTimer != 0)
+    if (tTimer == 48)
     {
-        if (tSpriteTimer < 24)
-            gSprites[tNidoranFSpriteId].y--;
-        tSpriteTimer--;
+        if (tIntroPokemonFadeState != INTRO_POKEMON_FADE_COMPLETE)
+            return;
+
+        if (tNidoranFSpriteId < MAX_SPRITES && gSprites[tNidoranFSpriteId].inUse)
+        {
+            DestroySprite(&gSprites[tNidoranFSpriteId]);
+            gTasks[taskId].tNidoranFSpriteId = SPRITE_NONE;
+        }
+
+        if (tPokeBallSpriteId != SPRITE_NONE && tPokeBallSpriteId < MAX_SPRITES && gSprites[tPokeBallSpriteId].inUse)
+        {
+            DestroySprite(&gSprites[tPokeBallSpriteId]);
+            gTasks[taskId].tPokeBallSpriteId = SPRITE_NONE;
+        }
+    }
+
+    if (tTimer != 0)
+    {
+        tTimer--;
     }
     else
     {
-        if (tTimer == 48)
-        {
-            if (tIntroPokemonFadeState != INTRO_POKEMON_FADE_COMPLETE)
-                return;
-            DestroySprite(&gSprites[tNidoranFSpriteId]);
-            DestroySprite(&gSprites[tPokeBallSpriteId]);
-            FreeSpriteTilesByTag(GFX_TAG_INTRO_POKEMON);
-            FreeSpritePaletteByTag(PAL_TAG_INTRO_POKEMON);
-        }
-        if (tTimer != 0)
-        {
-            tTimer--;
-        }
-        else
-        {
-            OakSpeechPrintMessage(gOakSpeech_Text_TellMeALittleAboutYourself, sOakSpeechResources->textSpeed);
-            gTasks[taskId].func = Task_OakSpeech_FadeOutOak;
-        }
+        OakSpeechPrintMessage(gOakSpeech_Text_TellMeALittleAboutYourself, sOakSpeechResources->textSpeed);
+        gTasks[taskId].func = Task_OakSpeech_FadeOutOak;
     }
 }
 
@@ -1877,13 +1847,15 @@ static void CreateNidoranFSprite(u8 taskId)
 {
     u8 spriteId;
 
-    LoadCompressedSpriteSheet(&sOakSpeech_IntroPokemon_SpriteSheet);
-    LoadSpritePalette(&sOakSpeech_IntroPokemon_SpritePalette);
-    spriteId = CreateSprite(&sOakSpeech_IntroPokemon_SpriteTemplate, 96, 90, 1);
+    DecompressPicFromTable(&gMonFrontPicTable[INTRO_SPECIES], MonSpritesGfxManager_GetSpritePtr(0), INTRO_SPECIES);
+    LoadCompressedSpritePaletteUsingHeap(&gMonPaletteTable[INTRO_SPECIES]);
+    SetMultiuseSpriteTemplateToPokemon(INTRO_SPECIES, 0);
+    spriteId = CreateSprite(&gMultiuseSpriteTemplate, 96, 90, 1);
     gSprites[spriteId].callback = SpriteCallbackDummy;
     gSprites[spriteId].oam.priority = 1;
     gSprites[spriteId].invisible = TRUE;
     gTasks[taskId].tNidoranFSpriteId = spriteId;
+    gTasks[taskId].tPokeBallSpriteId = SPRITE_NONE;
 }
 
 #define tFadeParentTaskId data[0]
@@ -1893,6 +1865,7 @@ static void CreateNidoranFSprite(u8 taskId)
 #define tFadeTimer        data[4]
 #define tFadeSpriteId     data[5]
 #define tFadeDirection    data[6]
+#define tFadeStep         data[7]
 
 static void CreateIntroPokemonFadeInTask(u8 taskId, u8 delay)
 {
@@ -1936,6 +1909,7 @@ static void CreateIntroPokemonFadeTask(u8 taskId, u8 delay, bool8 fadeIn)
     gTasks[fadeTaskId].tFadeTimer = delay;
     gTasks[fadeTaskId].tFadeSpriteId = spriteId;
     gTasks[fadeTaskId].tFadeDirection = fadeIn ? 1 : -1;
+    gTasks[fadeTaskId].tFadeStep = fadeIn ? 2 : -1;
 
     SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(gTasks[fadeTaskId].tFadeBlendTarget1,
                                                   gTasks[fadeTaskId].tFadeBlendTarget2));
@@ -1956,8 +1930,8 @@ static void Task_IntroPokemonFade(u8 taskId)
     }
 
     gTasks[taskId].tFadeTimer = gTasks[taskId].tFadeDelay;
-    blend1 = gTasks[taskId].tFadeBlendTarget1 + gTasks[taskId].tFadeDirection * 2;
-    blend2 = gTasks[taskId].tFadeBlendTarget2 - gTasks[taskId].tFadeDirection * 2;
+    blend1 = gTasks[taskId].tFadeBlendTarget1 + gTasks[taskId].tFadeStep;
+    blend2 = gTasks[taskId].tFadeBlendTarget2 - gTasks[taskId].tFadeStep;
 
     if (gTasks[taskId].tFadeDirection > 0)
     {
@@ -2003,6 +1977,7 @@ static void Task_IntroPokemonFade(u8 taskId)
 #undef tFadeTimer
 #undef tFadeSpriteId
 #undef tFadeDirection
+#undef tFadeStep
 
 #define sBodySpriteId data[0]
 
