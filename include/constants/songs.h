@@ -367,11 +367,12 @@
 #define MUS_HG_MT_MOON_SQUARE     356
 #define MUS_HG_CERULEAN           357
 #define MUS_HG_ENCOUNTER_ROCKET   358
+#define MUS_HG_VS_WILD            359
 //end hgss songs
 
 #define MUS_NONE                    0xFFFF
 
 #define START_MUS                   MUS_HEAL
-#define END_MUS                     MUS_HG_ENCOUNTER_ROCKET
+#define END_MUS                     MUS_HG_VS_WILD
 
 #endif  // GUARD_CONSTANTS_SONGS_H
