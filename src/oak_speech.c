@@ -114,6 +114,7 @@ extern const struct OamData gOamData_AffineOff_ObjBlend_32x32;
 extern const struct OamData gOamData_AffineOff_ObjNormal_32x32;
 extern const struct OamData gOamData_AffineOff_ObjNormal_32x16;
 extern const struct OamData gOamData_AffineOff_ObjNormal_16x8;
+extern const struct OamData gOamData_AffineOff_ObjNormal_64x64;
 
 static const u16 sOakSpeech_Background_Pals[] = INCBIN_U16("graphics/oak_speech/bg_tiles.gbapal"); // Shared by the Controls Guide, Pikachu Intro and Oak Speech scenes
 static const u32 sControlsGuide_PikachuIntro_Background_Tiles[] = INCBIN_U32("graphics/oak_speech/bg_tiles.4bpp.lz");
@@ -132,6 +133,8 @@ static const u16 sOakSpeech_Rival_Pal[] = INCBIN_U16("graphics/oak_speech/rival/
 static const u32 sOakSpeech_Rival_Tiles[] = INCBIN_U32("graphics/oak_speech/rival/pic.8bpp.lz");
 static const u16 sOakSpeech_Platform_Pal[] = INCBIN_U16("graphics/oak_speech/platform.gbapal");
 static const u16 sPikachuIntro_Pikachu_Pal[] = INCBIN_U16("graphics/oak_speech/pikachu_intro/pikachu.gbapal");
+static const u32 sOakSpeech_IntroPokemon_Gfx[] = INCBIN_U32("graphics/oak_speech/pokemon.4bpp.lz");
+static const u16 sOakSpeech_IntroPokemon_Pal[] = INCBIN_U16("graphics/oak_speech/pokemon.gbapal");
 static const u32 sOakSpeech_Platform_Gfx[] = INCBIN_U32("graphics/oak_speech/platform.4bpp.lz");
 static const u32 sPikachuIntro_PikachuBody_Gfx[] = INCBIN_U32("graphics/oak_speech/pikachu_intro/body.4bpp.lz");
 static const u32 sPikachuIntro_PikachuEars_Gfx[] = INCBIN_U32("graphics/oak_speech/pikachu_intro/ears.4bpp.lz");
@@ -349,9 +352,11 @@ static const u8 *const sPikachuIntro_Strings[NUM_PIKACHU_INTRO_PAGES] =
 #define GFX_TAG_PIKACHU      0x1001
 #define GFX_TAG_PIKACHU_EARS 0x1002
 #define GFX_TAG_PIKACHU_EYES 0x1003
+#define GFX_TAG_INTRO_POKEMON 0x1004
 
 #define PAL_TAG_PLATFORM     0x1000
 #define PAL_TAG_PIKACHU      0x1001
+#define PAL_TAG_INTRO_POKEMON 0x1004
 
 enum
 {
@@ -396,6 +401,13 @@ static const struct CompressedSpriteSheet sOakSpeech_Platform_SpriteSheet =
     .tag = GFX_TAG_PLATFORM
 };
 
+static const struct CompressedSpriteSheet sOakSpeech_IntroPokemon_SpriteSheet =
+{
+    .data = sOakSpeech_IntroPokemon_Gfx,
+    .size = 0x800,
+    .tag = GFX_TAG_INTRO_POKEMON
+};
+
 static const struct SpritePalette sPikachuIntro_Pikachu_SpritePalette =
 {
     .data = sPikachuIntro_Pikachu_Pal,
@@ -406,6 +418,23 @@ static const struct SpritePalette sOakSpeech_Platform_SpritePalette =
 {
     .data = sOakSpeech_Platform_Pal,
     .tag = PAL_TAG_PLATFORM
+};
+
+static const struct SpritePalette sOakSpeech_IntroPokemon_SpritePalette =
+{
+    .data = sOakSpeech_IntroPokemon_Pal,
+    .tag = PAL_TAG_INTRO_POKEMON
+};
+
+static const struct SpriteTemplate sOakSpeech_IntroPokemon_SpriteTemplate =
+{
+    .tileTag = GFX_TAG_INTRO_POKEMON,
+    .paletteTag = PAL_TAG_INTRO_POKEMON,
+    .oam = &gOamData_AffineOff_ObjNormal_64x64,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy
 };
 
 static const union AnimCmd sOakSpeech_PlatformLeft_Anim[] =
@@ -1184,6 +1213,8 @@ static void Task_OakSpeech_TellMeALittleAboutYourself(u8 taskId)
         {
             DestroySprite(&gSprites[tNidoranFSpriteId]);
             DestroySprite(&gSprites[tPokeBallSpriteId]);
+            FreeSpriteTilesByTag(GFX_TAG_INTRO_POKEMON);
+            FreeSpritePaletteByTag(PAL_TAG_INTRO_POKEMON);
         }
         if (tTimer != 0)
         {
@@ -1829,10 +1860,9 @@ static void CreateNidoranFSprite(u8 taskId)
 {
     u8 spriteId;
 
-    DecompressPicFromTable(&gMonFrontPicTable[INTRO_SPECIES], MonSpritesGfxManager_GetSpritePtr(0), INTRO_SPECIES);
-    LoadCompressedSpritePaletteUsingHeap(&gMonPaletteTable[INTRO_SPECIES]);
-    SetMultiuseSpriteTemplateToPokemon(INTRO_SPECIES, 0);
-    spriteId = CreateSprite(&gMultiuseSpriteTemplate, 96, 90, 1);
+    LoadCompressedSpriteSheet(&sOakSpeech_IntroPokemon_SpriteSheet);
+    LoadSpritePalette(&sOakSpeech_IntroPokemon_SpritePalette);
+    spriteId = CreateSprite(&sOakSpeech_IntroPokemon_SpriteTemplate, 96, 90, 1);
     gSprites[spriteId].callback = SpriteCallbackDummy;
     gSprites[spriteId].oam.priority = 1;
     gSprites[spriteId].invisible = TRUE;
