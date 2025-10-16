@@ -981,7 +981,6 @@ SECTIONS {
         sound/songs/midi/mus_hg_cerulean.o(.rodata);
         sound/songs/midi/mus_hg_encounter_rocket.o(.rodata);
         sound/songs/midi/mus_hg_vs_wild_kanto.o(.rodata);
-        sound/songs/midi/mus_hg_victory_vs_wild.o(.rodata);
 
     } > ROM =0
 

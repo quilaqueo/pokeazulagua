@@ -368,12 +368,11 @@
 #define MUS_HG_CERULEAN           357
 #define MUS_HG_ENCOUNTER_ROCKET   358
 #define MUS_HG_VS_WILD_KANTO      359
-#define MUS_HG_VICTORY_VS_WILD    360
 //end hgss songs
 
 #define MUS_NONE                    0xFFFF
 
 #define START_MUS                   MUS_HEAL
-#define END_MUS                     MUS_HG_VICTORY_VS_WILD
+#define END_MUS                     MUS_HG_VS_WILD_KANTO
 
 #endif  // GUARD_CONSTANTS_SONGS_H
