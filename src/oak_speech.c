@@ -137,6 +137,13 @@ static const u32 sOakSpeech_Rival_Tiles[] = INCBIN_U32("graphics/oak_speech/riva
 static const u16 sOakSpeech_Platform_Pal[] = INCBIN_U16("graphics/oak_speech/platform.gbapal");
 static const u16 sPikachuIntro_Pikachu_Pal[] = INCBIN_U16("graphics/oak_speech/pikachu_intro/pikachu.gbapal");
 static const u32 sOakSpeech_Platform_Gfx[] = INCBIN_U32("graphics/oak_speech/platform.4bpp.lz");
+static const u32 sOakSpeech_IntroPokemon_Gfx[] = INCBIN_U32("graphics/oak_speech/pokemon.4bpp.lz");
+static const u16 sOakSpeech_IntroPokemon_Pal[] = INCBIN_U16("graphics/oak_speech/pokemon.pal");
+static const struct SpritePalette sOakSpeech_IntroPokemon_SpritePalette =
+{
+    sOakSpeech_IntroPokemon_Pal,
+    INTRO_SPECIES,
+};
 static const u32 sPikachuIntro_PikachuBody_Gfx[] = INCBIN_U32("graphics/oak_speech/pikachu_intro/body.4bpp.lz");
 static const u32 sPikachuIntro_PikachuEars_Gfx[] = INCBIN_U32("graphics/oak_speech/pikachu_intro/ears.4bpp.lz");
 static const u32 sPikachuIntro_PikachuEyes_Gfx[] = INCBIN_U32("graphics/oak_speech/pikachu_intro/eyes.4bpp.lz");
@@ -1195,6 +1202,7 @@ static void Task_OakSpeech_TellMeALittleAboutYourself(u8 taskId)
         {
             DestroySprite(&gSprites[tNidoranFSpriteId]);
             gTasks[taskId].tNidoranFSpriteId = SPRITE_NONE;
+            FreeSpritePaletteByTag(INTRO_SPECIES);
         }
 
         if (tPokeBallSpriteId != SPRITE_NONE && tPokeBallSpriteId < MAX_SPRITES && gSprites[tPokeBallSpriteId].inUse)
@@ -1847,8 +1855,8 @@ static void CreateNidoranFSprite(u8 taskId)
 {
     u8 spriteId;
 
-    DecompressPicFromTable(&gMonFrontPicTable[INTRO_SPECIES], MonSpritesGfxManager_GetSpritePtr(0), INTRO_SPECIES);
-    LoadCompressedSpritePaletteUsingHeap(&gMonPaletteTable[INTRO_SPECIES]);
+    LZ77UnCompWram(sOakSpeech_IntroPokemon_Gfx, MonSpritesGfxManager_GetSpritePtr(0));
+    LoadSpritePalette(&sOakSpeech_IntroPokemon_SpritePalette);
     SetMultiuseSpriteTemplateToPokemon(INTRO_SPECIES, 0);
     spriteId = CreateSprite(&gMultiuseSpriteTemplate, 96, 90, 1);
     gSprites[spriteId].callback = SpriteCallbackDummy;
