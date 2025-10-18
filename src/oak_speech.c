@@ -1953,6 +1953,9 @@ static void StartIntroPokemonFadeTask(u8 parentTaskId, u8 spriteId, bool8 fadeIn
     struct Sprite *sprite;
     u16 paletteOffset;
 
+    if (parentTaskId >= NUM_TASKS || !gTasks[parentTaskId].isActive)
+        return;
+
     if (spriteId >= MAX_SPRITES)
         return;
 
@@ -1962,11 +1965,27 @@ static void StartIntroPokemonFadeTask(u8 parentTaskId, u8 spriteId, bool8 fadeIn
     if (gTasks[parentTaskId].tIntroPokemonFadeTaskId != TASK_NONE)
     {
         u8 activeTaskId = gTasks[parentTaskId].tIntroPokemonFadeTaskId;
-        if (gTasks[activeTaskId].isActive)
+        if (activeTaskId < NUM_TASKS && gTasks[activeTaskId].isActive)
             DestroyTask(activeTaskId);
+        gTasks[parentTaskId].tIntroPokemonFadeTaskId = TASK_NONE;
     }
 
     fadeTaskId = CreateTask(Task_FadeIntroPokemon, 2);
+    if (fadeTaskId == TASK_NONE)
+    {
+        if (!fadeIn)
+        {
+            BlendPalette(paletteOffset, 16, 16, RGB_BLACK);
+            sprite->invisible = TRUE;
+        }
+        else
+        {
+            BlendPalette(paletteOffset, 16, 0, RGB_BLACK);
+            sprite->invisible = FALSE;
+        }
+        return;
+    }
+
     gTasks[fadeTaskId].tFadeSpriteId = spriteId;
     gTasks[fadeTaskId].tFadeCoeff = fadeIn ? 16 : 0;
     gTasks[fadeTaskId].tFadeIsFadeIn = fadeIn;
