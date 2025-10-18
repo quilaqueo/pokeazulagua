@@ -1947,13 +1947,6 @@ static void Task_FadeIntroPokemon(u8 taskId)
     }
 }
 
-#undef tFadeHideOnFinish
-#undef tFadeParentTaskId
-#undef tFadeDelay
-#undef tFadeIsFadeIn
-#undef tFadeCoeff
-#undef tFadeSpriteId
-
 static void StartIntroPokemonFadeTask(u8 parentTaskId, u8 spriteId, bool8 fadeIn)
 {
     u8 fadeTaskId;
@@ -1989,6 +1982,13 @@ static void StartIntroPokemonFadeTask(u8 parentTaskId, u8 spriteId, bool8 fadeIn
 
     gTasks[parentTaskId].tIntroPokemonFadeTaskId = fadeTaskId;
 }
+
+#undef tFadeHideOnFinish
+#undef tFadeParentTaskId
+#undef tFadeDelay
+#undef tFadeIsFadeIn
+#undef tFadeCoeff
+#undef tFadeSpriteId
 
 #define sBodySpriteId data[0]
 
