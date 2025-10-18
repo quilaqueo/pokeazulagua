@@ -8,7 +8,6 @@
 #include "new_menu_helpers.h"
 #include "event_scripts.h"
 #include "scanline_effect.h"
-#include "pokeball.h"
 #include "naming_screen.h"
 #include "math_util.h"
 #include "overworld.h"
@@ -59,7 +58,7 @@ static void Task_PikachuIntro_Clear(u8);
 static void Task_OakSpeech_Init(u8);
 static void Task_OakSpeech_WelcomeToTheWorld(u8);
 static void Task_OakSpeech_ThisWorld(u8);
-static void Task_OakSpeech_ReleaseNidoranFFromPokeBall(u8);
+static void Task_OakSpeech_ShowIntroPokemon(u8);
 static void Task_OakSpeech_IsInhabitedFarAndWide(u8);
 static void Task_OakSpeech_IStudyPokemon(u8);
 static void Task_OakSpeech_ReturnNidoranFToPokeBall(u8);
@@ -1134,24 +1133,17 @@ static void Task_OakSpeech_ThisWorld(u8 taskId)
 {
     if (!IsTextPrinterActive(WIN_INTRO_TEXTBOX))
     {
-        gTasks[taskId].tTimer = 30;
-        gTasks[taskId].func = Task_OakSpeech_ReleaseNidoranFFromPokeBall;
+        gTasks[taskId].func = Task_OakSpeech_ShowIntroPokemon;
     }
 }
 
-static void Task_OakSpeech_ReleaseNidoranFFromPokeBall(u8 taskId)
+static void Task_OakSpeech_ShowIntroPokemon(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     u8 spriteId;
 
     if (!IsTextPrinterActive(WIN_INTRO_TEXTBOX))
     {
-        if (tTimer != 0)
-        {
-            tTimer--;
-            return;
-        }
-
         spriteId = gTasks[taskId].tNidoranFSpriteId;
         gSprites[spriteId].invisible = FALSE;
         gSprites[spriteId].x = 96;
