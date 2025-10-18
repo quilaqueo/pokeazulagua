@@ -1147,7 +1147,11 @@ static void Task_OakSpeech_ReleaseNidoranFFromPokeBall(u8 taskId)
     if (!IsTextPrinterActive(WIN_INTRO_TEXTBOX))
     {
         if (tTimer != 0)
+        {
             tTimer--;
+            return;
+        }
+
         spriteId = gTasks[taskId].tNidoranFSpriteId;
         gSprites[spriteId].invisible = FALSE;
         gSprites[spriteId].x = 96;
