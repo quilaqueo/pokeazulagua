@@ -1152,7 +1152,10 @@ static void Task_OakSpeech_ReleaseNidoranFFromPokeBall(u8 taskId)
         spriteId = gTasks[taskId].tNidoranFSpriteId;
         gSprites[spriteId].invisible = FALSE;
         gSprites[spriteId].tSpriteTimer = 0;
-        CreatePokeballSpriteToReleaseMon(spriteId, gSprites[spriteId].oam.paletteNum, 106, 54, 0, 0, 32, 0xFFFF1FFF);
+        gSprites[spriteId].x = 96;
+        gSprites[spriteId].y = 90;
+        gSprites[spriteId].x2 = 0;
+        gSprites[spriteId].y2 = 0;
         StartIntroPokemonFadeTask(taskId, spriteId, TRUE);
         gTasks[taskId].func = Task_OakSpeech_IsInhabitedFarAndWide;
         gTasks[taskId].tTimer = 0;
@@ -1194,10 +1197,9 @@ static void Task_OakSpeech_ReturnNidoranFToPokeBall(u8 taskId)
     {
         ClearDialogWindowAndFrame(WIN_INTRO_TEXTBOX, TRUE);
         spriteId = gTasks[taskId].tNidoranFSpriteId;
-        gTasks[taskId].tPokeBallSpriteId = CreateTradePokeballSprite(spriteId, gSprites[spriteId].oam.paletteNum, 100, 66, 0, 0, 32, 0xFFFF1F3F);
         StartIntroPokemonFadeTask(taskId, spriteId, FALSE);
         gTasks[taskId].tTimer = 48;
-        gTasks[taskId].tSpriteTimer = 64;
+        gTasks[taskId].tSpriteTimer = 0;
         gTasks[taskId].func = Task_OakSpeech_TellMeALittleAboutYourself;
     }
 }
@@ -1219,7 +1221,6 @@ static void Task_OakSpeech_TellMeALittleAboutYourself(u8 taskId)
             if (gTasks[taskId].tIntroPokemonFadeTaskId != TASK_NONE)
                 return;
             DestroySprite(&gSprites[tNidoranFSpriteId]);
-            DestroySprite(&gSprites[tPokeBallSpriteId]);
             FreeSpriteTilesByTag(GFX_TAG_INTRO_POKEMON);
             FreeSpritePaletteByTag(PAL_TAG_INTRO_POKEMON);
             gTasks[taskId].tIntroPokemonFadeTaskId = TASK_NONE;
