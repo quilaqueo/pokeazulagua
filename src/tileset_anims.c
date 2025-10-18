@@ -107,6 +107,34 @@ static const u16 *const sTilesetAnims_General_Flower[] = {
     sTilesetAnims_General_Flower_Frame4
 };
 
+static const u16 sTilesetAnims_General_WaterGrass_Frame0[] = INCBIN_U16("data/tilesets/primary/general/anim/water_grass/0.4bpp");
+static const u16 sTilesetAnims_General_WaterGrass_Frame1[] = INCBIN_U16("data/tilesets/primary/general/anim/water_grass/1.4bpp");
+static const u16 sTilesetAnims_General_WaterGrass_Frame2[] = INCBIN_U16("data/tilesets/primary/general/anim/water_grass/2.4bpp");
+static const u16 sTilesetAnims_General_WaterGrass_Frame3[] = INCBIN_U16("data/tilesets/primary/general/anim/water_grass/3.4bpp");
+static const u16 sTilesetAnims_General_WaterGrass_Frame4[] = INCBIN_U16("data/tilesets/primary/general/anim/water_grass/4.4bpp");
+
+static const u16 *const sTilesetAnims_General_WaterGrass[] = {
+    sTilesetAnims_General_WaterGrass_Frame0,
+    sTilesetAnims_General_WaterGrass_Frame1,
+    sTilesetAnims_General_WaterGrass_Frame2,
+    sTilesetAnims_General_WaterGrass_Frame3,
+    sTilesetAnims_General_WaterGrass_Frame4
+};
+
+static const u16 sTilesetAnims_General_WaterLeaf_Frame0[] = INCBIN_U16("data/tilesets/primary/general/anim/water_leaf/0.4bpp");
+static const u16 sTilesetAnims_General_WaterLeaf_Frame1[] = INCBIN_U16("data/tilesets/primary/general/anim/water_leaf/1.4bpp");
+static const u16 sTilesetAnims_General_WaterLeaf_Frame2[] = INCBIN_U16("data/tilesets/primary/general/anim/water_leaf/2.4bpp");
+static const u16 sTilesetAnims_General_WaterLeaf_Frame3[] = INCBIN_U16("data/tilesets/primary/general/anim/water_leaf/3.4bpp");
+static const u16 sTilesetAnims_General_WaterLeaf_Frame4[] = INCBIN_U16("data/tilesets/primary/general/anim/water_leaf/4.4bpp");
+
+static const u16 *const sTilesetAnims_General_WaterLeaf[] = {
+    sTilesetAnims_General_WaterLeaf_Frame0,
+    sTilesetAnims_General_WaterLeaf_Frame1,
+    sTilesetAnims_General_WaterLeaf_Frame2,
+    sTilesetAnims_General_WaterLeaf_Frame3,
+    sTilesetAnims_General_WaterLeaf_Frame4
+};
+
 static const u16 sTilesetAnims_General_Pasto_Frame0[] = INCBIN_U16("data/tilesets/primary/general/anim/pasto/0.4bpp");
 static const u16 sTilesetAnims_General_Pasto_Frame1[] = INCBIN_U16("data/tilesets/primary/general/anim/pasto/1.4bpp");
 
@@ -318,6 +346,16 @@ static void QueueAnimTiles_General_Flower(u16 timer)
     AppendTilesetAnimToBuffer(sTilesetAnims_General_Flower[timer % ARRAY_COUNT(sTilesetAnims_General_Flower)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(508)), 4 * TILE_SIZE_4BPP);
 }
 
+static void QueueAnimTiles_General_WaterGrass(u16 timer)
+{
+    AppendTilesetAnimToBuffer(sTilesetAnims_General_WaterGrass[timer % ARRAY_COUNT(sTilesetAnims_General_WaterGrass)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(204)), 4 * TILE_SIZE_4BPP);
+}
+
+static void QueueAnimTiles_General_WaterLeaf(u16 timer)
+{
+    AppendTilesetAnimToBuffer(sTilesetAnims_General_WaterLeaf[timer % ARRAY_COUNT(sTilesetAnims_General_WaterLeaf)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(220)), 4 * TILE_SIZE_4BPP);
+}
+
 static void QueueAnimTiles_General_Pasto(u16 timer)
 {
     AppendTilesetAnimToBuffer(sTilesetAnims_General_Pasto[timer % ARRAY_COUNT(sTilesetAnims_General_Pasto)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(617)), 2 * TILE_SIZE_4BPP);
@@ -325,7 +363,7 @@ static void QueueAnimTiles_General_Pasto(u16 timer)
 
 static void QueueAnimTiles_General_Water_Current_LandWatersEdge(u16 timer)
 {
-    AppendTilesetAnimToBuffer(sTilesetAnims_General_Water_Current_LandWatersEdge[timer % ARRAY_COUNT(sTilesetAnims_General_Water_Current_LandWatersEdge)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(416)), 74 * TILE_SIZE_4BPP);
+    AppendTilesetAnimToBuffer(sTilesetAnims_General_Water_Current_LandWatersEdge[timer % ARRAY_COUNT(sTilesetAnims_General_Water_Current_LandWatersEdge)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(416)), 82 * TILE_SIZE_4BPP);
 }
 
 static void QueueAnimTiles_PowerPlantFlash_Electric(u16 timer)
@@ -361,6 +399,10 @@ static void TilesetAnim_General(u16 timer)
 {
     if (timer % 16 == 1)
         QueueAnimTiles_General_Water_Current_LandWatersEdge(timer / 16);
+    if (timer % 16 == 2)
+        QueueAnimTiles_General_WaterGrass(timer / 16);
+    if (timer % 16 == 2)
+        QueueAnimTiles_General_WaterLeaf(timer / 16);
     if (timer % 16 == 2)
         QueueAnimTiles_General_Flower(timer / 16);
     if (timer % 16 == 2)
