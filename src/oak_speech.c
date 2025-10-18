@@ -678,7 +678,6 @@ void StartNewGameScene(void)
     SetMainCallback2(CB2_NewGameScene);
 }
 
-#define tSpriteTimer                data[0]
 #define tTrainerPicPosX             data[1]
 #define tTrainerPicFadeState        data[2]
 #define tTimer                      data[3]
@@ -1151,7 +1150,6 @@ static void Task_OakSpeech_ReleaseNidoranFFromPokeBall(u8 taskId)
             tTimer--;
         spriteId = gTasks[taskId].tNidoranFSpriteId;
         gSprites[spriteId].invisible = FALSE;
-        gSprites[spriteId].tSpriteTimer = 0;
         gSprites[spriteId].x = 96;
         gSprites[spriteId].y = 90;
         gSprites[spriteId].x2 = 0;
@@ -1199,7 +1197,6 @@ static void Task_OakSpeech_ReturnNidoranFToPokeBall(u8 taskId)
         spriteId = gTasks[taskId].tNidoranFSpriteId;
         StartIntroPokemonFadeTask(taskId, spriteId, FALSE);
         gTasks[taskId].tTimer = 48;
-        gTasks[taskId].tSpriteTimer = 0;
         gTasks[taskId].func = Task_OakSpeech_TellMeALittleAboutYourself;
     }
 }
@@ -1208,33 +1205,25 @@ static void Task_OakSpeech_TellMeALittleAboutYourself(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (tSpriteTimer != 0)
+    if (tTimer == 48)
     {
-        if (tSpriteTimer < 24)
-            gSprites[tNidoranFSpriteId].y--;
-        tSpriteTimer--;
+        if (gTasks[taskId].tIntroPokemonFadeTaskId != TASK_NONE)
+            return;
+
+        DestroySprite(&gSprites[tNidoranFSpriteId]);
+        FreeSpriteTilesByTag(GFX_TAG_INTRO_POKEMON);
+        FreeSpritePaletteByTag(PAL_TAG_INTRO_POKEMON);
+        gTasks[taskId].tIntroPokemonFadeTaskId = TASK_NONE;
     }
-    else
+
+    if (tTimer != 0)
     {
-        if (tTimer == 48)
-        {
-            if (gTasks[taskId].tIntroPokemonFadeTaskId != TASK_NONE)
-                return;
-            DestroySprite(&gSprites[tNidoranFSpriteId]);
-            FreeSpriteTilesByTag(GFX_TAG_INTRO_POKEMON);
-            FreeSpritePaletteByTag(PAL_TAG_INTRO_POKEMON);
-            gTasks[taskId].tIntroPokemonFadeTaskId = TASK_NONE;
-        }
-        if (tTimer != 0)
-        {
-            tTimer--;
-        }
-        else
-        {
-            OakSpeechPrintMessage(gOakSpeech_Text_TellMeALittleAboutYourself, sOakSpeechResources->textSpeed);
-            gTasks[taskId].func = Task_OakSpeech_FadeOutOak;
-        }
+        tTimer--;
+        return;
     }
+
+    OakSpeechPrintMessage(gOakSpeech_Text_TellMeALittleAboutYourself, sOakSpeechResources->textSpeed);
+    gTasks[taskId].func = Task_OakSpeech_FadeOutOak;
 }
 
 static void Task_OakSpeech_FadeOutOak(u8 taskId)
@@ -2275,7 +2264,6 @@ static void GetDefaultName(u8 hasPlayerBeenNamed, u8 rivalNameChoice)
         dest[i] = EOS;
 }
 
-#undef tSpriteTimer
 #undef tTrainerPicPosX
 #undef tTrainerPicFadeState
 #undef tTimer
